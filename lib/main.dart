@@ -16,6 +16,9 @@ class MyApp extends StatelessWidget {
   }
 }
 
+
+
+
 class PathfinderGrid extends StatefulWidget {
   @override
   _PathfinderGridState createState() => _PathfinderGridState();
@@ -52,13 +55,13 @@ class _PathfinderGridState extends State<PathfinderGrid> {
 
     while (queue.isNotEmpty) {
       Offset current = queue.removeFirst();
-      visitedOrder.add(current); // Record the visit order
+      visitedOrder.add(current); 
 
-      setState(() {}); // Update the UI to show the visited cell
-      await Future.delayed(const Duration(milliseconds: 20)); // Add a delay to visualize search
+      setState(() {}); 
+      await Future.delayed(const Duration(milliseconds: 20)); 
 
       if (current == goal) {
-        return reconstructPath(cameFrom, current); // Return the shortest path
+        return reconstructPath(cameFrom, current); 
       }
 
       for (Offset neighbor in getNeighbors(current)) {
@@ -102,6 +105,7 @@ class _PathfinderGridState extends State<PathfinderGrid> {
   }
 
 
+  
 
 
 
@@ -109,6 +113,8 @@ class _PathfinderGridState extends State<PathfinderGrid> {
     return point.dx >= 0 && point.dx < gridSize && point.dy >= 0 && point.dy < gridSize;
   }
 
+
+  
 
 
   List<Offset> reconstructPath(Map<Offset, Offset?> cameFrom, Offset current) {
@@ -120,6 +126,8 @@ class _PathfinderGridState extends State<PathfinderGrid> {
     return path.reversed.toList();
   }
 
+
+  
 
   void findShortestPath() async {
     if (startPoint == null || endPoint == null) return;
