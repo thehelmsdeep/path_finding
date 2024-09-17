@@ -61,7 +61,7 @@ class _PathfinderGridState extends State<PathfinderGrid> {
       visitedOrder.add(current);
 
       setState(() {});
-      await Future.delayed(const Duration(milliseconds: 10));
+      //await Future.delayed(const Duration(milliseconds: 10));
 
       if (current == goal) {
         return reconstructPath(cameFrom, current);
@@ -151,6 +151,26 @@ class _PathfinderGridState extends State<PathfinderGrid> {
 
   void addStaticObstacles() {
     List<Offset> staticObstacles = const [
+
+
+      Offset(22, 23),
+      Offset(22, 24),
+      Offset(23, 23),
+      Offset(23, 24),
+      Offset(24, 23),
+      Offset(24, 24),
+      Offset(25, 23),
+      Offset(25, 24),
+      Offset(26, 23),
+      Offset(26, 24),
+      Offset(27, 23),
+      Offset(27, 24),
+      Offset(28, 23),
+      Offset(28, 24),
+      Offset(29, 23),
+      Offset(29, 24),
+
+
       Offset(20, 20),
       Offset(20, 21),
       Offset(21, 20),
