@@ -25,10 +25,11 @@ class PathfinderGrid extends StatefulWidget {
 
 
 
+
 class _PathfinderGridState extends State<PathfinderGrid> {
   static const int gridSize = 50;
 
-  // grid: false = empty, true = obstacle
+
   List<List<bool>> grid =
       List.generate(gridSize, (i) => List.generate(gridSize, (j) => false));
 
@@ -78,6 +79,10 @@ class _PathfinderGridState extends State<PathfinderGrid> {
     return [];
   }
 
+
+
+
+
   List<Offset> getNeighbors(Offset point) {
     List<Offset> neighbors = [];
     List<Offset> potentialNeighbors = const [
@@ -102,12 +107,17 @@ class _PathfinderGridState extends State<PathfinderGrid> {
     return neighbors;
   }
 
+
+
+
   bool isInBounds(Offset point) {
     return point.dx >= 0 &&
         point.dx < gridSize &&
         point.dy >= 0 &&
         point.dy < gridSize;
   }
+
+
 
   List<Offset> reconstructPath(Map<Offset, Offset?> cameFrom, Offset current) {
     List<Offset> path = [current];
@@ -117,6 +127,9 @@ class _PathfinderGridState extends State<PathfinderGrid> {
     }
     return path.reversed.toList();
   }
+
+
+
 
   void findShortestPath() async {
     if (startPoint == null || endPoint == null) return;
@@ -132,6 +145,9 @@ class _PathfinderGridState extends State<PathfinderGrid> {
       path = shortestPath; // Display the shortest path after search completes
     });
   }
+
+
+
 
   void addStaticObstacles() {
     List<Offset> staticObstacles = const [
@@ -176,6 +192,9 @@ class _PathfinderGridState extends State<PathfinderGrid> {
     }
   }
 
+
+
+
   void reset() {
     path.clear();
     startPoint = null;
@@ -186,6 +205,8 @@ class _PathfinderGridState extends State<PathfinderGrid> {
     addStaticObstacles();
     setState(() {});
   }
+
+
 
   @override
   Widget build(BuildContext context) {
