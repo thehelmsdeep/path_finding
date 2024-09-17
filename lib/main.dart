@@ -61,7 +61,7 @@ class _PathfinderGridState extends State<PathfinderGrid> {
       visitedOrder.add(current);
 
       setState(() {});
-      //await Future.delayed(const Duration(milliseconds: 10));
+      await Future.delayed(const Duration(milliseconds: 2));
 
       if (current == goal) {
         return reconstructPath(cameFrom, current);
