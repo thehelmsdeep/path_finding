@@ -1,9 +1,6 @@
-import 'package:flutter/material.dart';
-import 'dart:async';
 import 'dart:collection';
-import 'dart:math';
 
-
+import 'package:flutter/material.dart';
 
 class PathfinderGrid extends StatefulWidget {
   @override
@@ -27,18 +24,18 @@ class _PathfinderGridState extends State<PathfinderGrid> {
     addStaticObstacles();
   }
 
-  Future<List<Offset>> aStar(Offset start, Offset goal) async {
-    PriorityQueue<Offset> openSet = PriorityQueue<Offset>();
+  // Breadth-First Search (BFS) Algorithm with delay for visualization
+  Future<List<Offset>> bfs(Offset start, Offset goal) async {
+    Queue<Offset> queue = Queue();
     Map<Offset, Offset?> cameFrom = {};
-    Map<Offset, double> gScore = {};
     Set<Offset> visitedSet = {};
 
-    gScore[start] = 0;
-    openSet.add(start, heuristic(start, goal));
+    queue.add(start);
+    visitedSet.add(start);
     cameFrom[start] = null;
 
-    while (!openSet.isEmpty) {
-      Offset current = openSet.removeFirst();
+    while (queue.isNotEmpty) {
+      Offset current = queue.removeFirst();
       visitedOrder.add(current);
 
       setState(() {});
@@ -49,28 +46,15 @@ class _PathfinderGridState extends State<PathfinderGrid> {
       }
 
       for (Offset neighbor in getNeighbors(current)) {
-        if (visitedSet.contains(neighbor)) continue;
-
-        double tentativeGScore = gScore[current]! + 1;
-        double currentGScore = gScore[neighbor] ?? double.infinity;
-
-        if (tentativeGScore < currentGScore) {
+        if (!visitedSet.contains(neighbor)) {
+          queue.add(neighbor);
+          visitedSet.add(neighbor);
           cameFrom[neighbor] = current;
-          gScore[neighbor] = tentativeGScore;
-
-          double fScore = tentativeGScore + heuristic(neighbor, goal);
-          openSet.add(neighbor, fScore);
         }
       }
-      visitedSet.add(current);
     }
 
     return [];
-  }
-
-  // Heuristic function: Manhattan distance
-  double heuristic(Offset a, Offset b) {
-    return (a.dx - b.dx).abs() + (a.dy - b.dy).abs();
   }
 
   List<Offset> getNeighbors(Offset point) {
@@ -122,7 +106,7 @@ class _PathfinderGridState extends State<PathfinderGrid> {
     });
 
     List<Offset> shortestPath =
-        await aStar(startPoint!, endPoint!); // Use A* algorithm
+        await bfs(startPoint!, endPoint!); // Wait for the BFS to complete
     setState(() {
       path = shortestPath; // Display the shortest path after search completes
     });
@@ -203,7 +187,7 @@ class _PathfinderGridState extends State<PathfinderGrid> {
     return Scaffold(
       backgroundColor: Colors.grey.shade400,
       appBar: AppBar(
-        title: const Text('A* Pathfinding'),
+        title: const Text('BFS Pathfinding'),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -298,53 +282,5 @@ class _PathfinderGridState extends State<PathfinderGrid> {
         ],
       ),
     );
-  }
-}
-
-
-
-
-
-
-class Node {
-  final Offset position;
-  final double g;
-  final double f;
-
-  Node(this.position, this.g, this.f);
-}
-
-class PriorityQueue<T> {
-  final List<PriorityQueueNode<T>> _elements = [];
-
-  void add(T element, double priority) {
-    _elements.add(PriorityQueueNode(element, priority));
-    _elements.sort((a, b) => a.priority.compareTo(b.priority));
-  }
-
-  T removeFirst() {
-    if (_elements.isEmpty) {
-      throw StateError('No elements to remove');
-    }
-    return _elements.removeAt(0).element;
-  }
-
-  bool get isEmpty => _elements.isEmpty;
-
-  @override
-  String toString() {
-    return _elements.toString();
-  }
-}
-
-class PriorityQueueNode<T> {
-  final T element;
-  final double priority;
-
-  PriorityQueueNode(this.element, this.priority);
-
-  @override
-  String toString() {
-    return 'PriorityQueueNode(element: $element, priority: $priority)';
   }
 }
