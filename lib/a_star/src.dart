@@ -42,7 +42,7 @@ class _AStarPathfinderState extends State<AStarPathfinder> {
       visitedOrder.add(current);
 
       setState(() {});
-      await Future.delayed(const Duration(milliseconds: 2));
+      await Future.delayed(const Duration(microseconds: 100));
 
       if (current == goal) {
         return reconstructPath(cameFrom, current);
@@ -169,6 +169,7 @@ class _AStarPathfinderState extends State<AStarPathfinder> {
         padding: const EdgeInsets.all(64.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
             RichText(
@@ -212,6 +213,7 @@ class _AStarPathfinderState extends State<AStarPathfinder> {
                       Offset point = Offset(row.toDouble(), col.toDouble());
 
                       Color color;
+                      BoxShape shape = BoxShape.circle;
 
                       if (startPoint == point) {
                         color = Colors.orange;
@@ -219,6 +221,7 @@ class _AStarPathfinderState extends State<AStarPathfinder> {
                         color = Colors.purple;
                       } else if (grid[row][col]) {
                         color = Colors.grey.shade400;
+                        shape = BoxShape.rectangle;
                       } else if (path.contains(point)) {
                         color = Colors.red;
                       } else if (visitedOrder.contains(point)) {
@@ -239,11 +242,13 @@ class _AStarPathfinderState extends State<AStarPathfinder> {
                             }
                           });
                         },
-                        child: Container(
-                          margin: const EdgeInsets.all(1),
+                        child:
+
+                        Container(
+                          margin: const EdgeInsets.all(0.5),
                           decoration: BoxDecoration(
                             color: color,
-                            shape: BoxShape.circle,
+                            shape: shape,
                           ),
                         ),
                       );
@@ -256,6 +261,54 @@ class _AStarPathfinderState extends State<AStarPathfinder> {
               height: 50,
             ),
 
+            RichText(
+              text: TextSpan(
+                style: TextStyle(
+                  color: Colors.grey.shade600,
+                  fontSize: 14,
+                ),
+                children: <TextSpan>[
+                  TextSpan(
+                    text: 'Total Visited Points:',
+                    style: TextStyle(color: Colors.grey.shade600),
+                  ),
+                   TextSpan(
+                     style: const TextStyle(fontSize: 15,fontWeight:FontWeight.bold),
+                    text: '  ${visitedOrder.length}',
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+
+            RichText(
+              text: TextSpan(
+                style: TextStyle(
+                  color: Colors.grey.shade600,
+                  fontSize: 14,
+                ),
+                children: <TextSpan>[
+                  TextSpan(
+                    text: 'Total Path Points:',
+                    style: TextStyle(color: Colors.grey.shade600),
+                  ),
+                  TextSpan(
+                    style: const TextStyle(fontSize: 15,fontWeight:FontWeight.bold ),
+                    text: '  ${path.length}',
+                  ),
+                ],
+              ),
+            ),
+
+
+
+
+            const SizedBox(
+              height: 50,
+            ),
+
             buttons
 
           ],
@@ -263,6 +316,7 @@ class _AStarPathfinderState extends State<AStarPathfinder> {
       ),
     );
   }
+
 
 
   Widget get buttons => Column(
@@ -285,7 +339,7 @@ class _AStarPathfinderState extends State<AStarPathfinder> {
           ),
         ),
         padding: const EdgeInsets.all(8),
-        child: const Text("Add Obstacles"),
+        child: const Text("Add random Obstacles"),
       ),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
