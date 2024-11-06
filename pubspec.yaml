@@ -28,3 +28,9 @@ flutter:
 
   uses-material-design: true
 
+
+  fonts:
+    - family: MyCustomFont
+      fonts:
+        - asset: assets/fonts/SaucerBB.ttf
+
