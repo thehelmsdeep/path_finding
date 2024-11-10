@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 class AStarPathfinder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+
     final controller = Provider.of<PathfindingController>(context);
 
     return Scaffold(
@@ -41,6 +43,9 @@ class AStarPathfinder extends StatelessWidget {
       ),
     );
   }
+
+
+
 
   Widget buildGrid(PathfindingController controller) {
     return SizedBox(
@@ -102,6 +107,8 @@ class AStarPathfinder extends StatelessWidget {
     );
   }
 
+
+
   Widget buildMetrics(PathfindingController controller) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,6 +120,8 @@ class AStarPathfinder extends StatelessWidget {
       ],
     );
   }
+
+
 
   Widget buildButtons(BuildContext context, PathfindingController controller) {
     return Column(
@@ -161,8 +170,8 @@ class AStarPathfinder extends StatelessWidget {
           controller.findShortestPath(heuristic);
           controller.setSelectedButtonIndex(index);
         },
-        color: controller.selectedButtonIndex == index ? Colors.blue : Colors.white, // Highlight selected button
-        textColor: controller.selectedButtonIndex == index ? Colors.white : Colors.black, // Adjust text color accordingly
+        color: controller.selectedButtonIndex == index ? Colors.blue : Colors.white,
+        textColor: controller.selectedButtonIndex == index ? Colors.white : Colors.black,
         child: Text(label),
       ),
     );
