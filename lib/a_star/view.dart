@@ -25,7 +25,6 @@ class _AStarPathfinderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
 
 
-    final controller = Provider.of<PathfindingController>(context);
 
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
@@ -34,22 +33,27 @@ class _AStarPathfinderWidget extends StatelessWidget {
           selector: (a,b)=>b.initialCompleted,
           builder:(a,b,c)=>
               !b ? const CircularProgressIndicator():
-              Padding(
-            padding: const EdgeInsets.all(32.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildTitle(),
-                const SizedBox(height: 24),
-                _buildGrid(controller),
-                const SizedBox(height: 40),
-                _buildMetrics(controller),
-                const SizedBox(height: 40),
-                _buildButtons(context, controller),
-              ],
-            ),
-          ),
+              Consumer<PathfindingController>(
+                builder:(a,controller,c){
+
+                  return Padding(
+                    padding: const EdgeInsets.all(32.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildTitle(),
+                        const SizedBox(height: 24),
+                        _buildGrid(controller),
+                        const SizedBox(height: 40),
+                        _buildMetrics(controller),
+                        const SizedBox(height: 40),
+                        _buildButtons(context, controller),
+                      ],
+                    ),
+                  );
+                }
+              ),
         ),
       ),
     );
